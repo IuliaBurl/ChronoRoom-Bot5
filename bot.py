@@ -10,7 +10,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Your token from @BotFather
-TOKEN = "8589248642:AAHKHIhA0gizdGllmt8rPau4dMnquuNilp4"                         
+TOKEN = ""                         
 # Channel settings (replace with yours!)                                         CHANNEL_USERNAME = "@ChronoRoom"  # Your channel
 CHANNEL_URL = "https://t.me/ChronoRoom"
 
