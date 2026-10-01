@@ -27,7 +27,7 @@ BOT_DESCRIPTIONS = {
     },
     "bot2": {
         "name": "🎲 ChronoBot 2",
-        "link": "https://t.me/ChronoRoom1_bot",  # Fixed!
+        "link": "https://t.me/ChronoRoom1_bot",  
         "title": "Lucky Dice",
         "description": (
             "✨ *What awaits you?*\n"
@@ -40,7 +40,7 @@ BOT_DESCRIPTIONS = {
     },
     "bot3": {
         "name": "🎤 ChronoBot 3",
-        "link": "https://t.me/ChronoRoom2_bot",  # Fixed!                                "title": "Anonymous Voice Chat",
+        "link": "https://t.me/ChronoRoom2_bot",                               "title": "Anonymous Voice Chat",
         "description": (
             "✨ *Chat features:*\n"                                                          "• Voice-only communication\n"
             "• Automatic voice masking\n"
@@ -50,7 +50,7 @@ BOT_DESCRIPTIONS = {
     },
     "bot4": {
         "name": "🌍 ChronoBot 4",
-        "link": "https://t.me/ChronoRoom3_bot",  # Fixed!
+        "link": "https://t.me/ChronoRoom3_bot",  
         "title": "Global Profile Board",
         "description": (
             "✨ *Features:*\n"
@@ -124,7 +124,7 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
-                                                                                     # Check subscription
+                                                                                     
     is_subscribed = await is_user_subscribed(context.bot, user.id)
 
     if not is_subscribed:
