@@ -2,19 +2,16 @@ import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes                                                                          from telegram.constants import ParseMode
 
-# Logging configuration
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
-# Your token from @BotFather
-TOKEN = ""                         
-# Channel settings (replace with yours!)                                         CHANNEL_USERNAME = "@ChronoRoom"  # Your channel
-CHANNEL_URL = "https://t.me/ChronoRoom"
 
-# Bot descriptions (fixed links!)
+TOKEN = ""                         
+CHANNEL_URL = ""
+
 BOT_DESCRIPTIONS = {
     "bot1": {
         "name": "🎯 ChronoBot 1",
@@ -64,14 +61,12 @@ BOT_DESCRIPTIONS = {
         )                                                                            }
 }
 
-# Function to check subscription
 async def is_user_subscribed(bot, user_id: int) -> bool:                             try:
         chat_member = await bot.get_chat_member(CHANNEL_USERNAME, user_id)
         return chat_member.status in ['member', 'administrator', 'creator']          except Exception as e:
         logger.error(f"Error checking subscription: {e}")
         return False
 
-# Show subscription requirement menu
 async def show_subscription_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user                                                 
     keyboard = [
@@ -99,7 +94,6 @@ async def show_subscription_menu(update: Update, context: ContextTypes.DEFAULT_T
             parse_mode=ParseMode.MARKDOWN
         )
 
-# Show main menu with bots
 async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
 
@@ -128,7 +122,6 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode=ParseMode.MARKDOWN
         )
 
-# Main /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
                                                                                      # Check subscription
@@ -139,13 +132,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await show_main_menu(update, context)
 
-# Show bot information (only for subscribers)
 async def show_bot_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query                                                    await query.answer()
 
     user = query.from_user
 
-    # Check subscription
     is_subscribed = await is_user_subscribed(context.bot, user.id)
     if not is_subscribed:
         await query.answer("❌ Please subscribe to the channel first", show_alert=True)                                                                                   await show_subscription_menu(update, context)
@@ -173,7 +164,6 @@ async def check_subscription(update: Update, context: ContextTypes.DEFAULT_TYPE)
     query = update.callback_query
     await query.answer("🔍 Checking subscription...")                                                                                                                 user = query.from_user
 
-    # Check subscription
     is_subscribed = await is_user_subscribed(context.bot, user.id)
 
     if is_subscribed:
@@ -182,7 +172,6 @@ async def check_subscription(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await query.answer("❌ You are not subscribed to the channel", show_alert=True)
         await show_subscription_menu(update, context)
 
-# Button handler
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
 
@@ -192,7 +181,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data in ["bot1", "bot2", "bot3", "bot4"]:
         await show_bot_info(update, context)
 
-# /help command
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     help_text = (                                                                        "🆘 *Help*\n\n"
         "✨ *How to use:*\n"
@@ -212,23 +200,17 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         help_text,                                                                       parse_mode=ParseMode.MARKDOWN
     )
 
-# Error handler
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.error(f"Error: {context.error}")
 
 def main():
-    # Create application
     application = Application.builder().token(TOKEN).build()                     
-    # Add command handlers
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
 
-    # Add button handler
     application.add_handler(CallbackQueryHandler(button_handler))
 
-    # Error handler                                                                  application.add_error_handler(error_handler)
 
-    # Start bot
     print("=" * 50)
     print("🤖 ChronoRoom Bot started!")
     print(f"📢 Channel: {CHANNEL_USERNAME}")
