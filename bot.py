@@ -15,7 +15,7 @@ CHANNEL_URL = ""
 BOT_DESCRIPTIONS = {
     "bot1": {
         "name": "🎯 ChronoBot 1",
-        "link": "https://t.me/ChronoRoom_bot",  # Fixed!
+        "link": "https://t.me/ChronoRoom_bot",  
         "title": "Compatibility Tests",
         "description": (
             "✨ *How does it work?*\n"
